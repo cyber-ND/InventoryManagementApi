@@ -2,6 +2,8 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sendEmail = require("../middleware/emailSender");
+
 
 
 exports.createUser = async (req, res) => {
@@ -82,6 +84,19 @@ exports.login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         );
+
+         const subject = "New Login Alert";
+            const message = `
+              <h3>Hey ${user.name} 🚀</h3>
+              <p>We just noticed a login into your accout:</p>
+              <ul>
+                <li><strong>Location:</strong> Ikeja Lagos</li>
+                <li><strong>Device:</strong> Chrome 8.5</li>
+              </ul>
+            <p>Thank you for banking with us</p>
+            `;
+        
+              await sendEmail(user.email, subject, message);
 
         res.json({
             message: 'Login successful',
