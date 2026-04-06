@@ -9,8 +9,9 @@ exports.createUser = async (req, res) => {
         const { name, password, email, role, phone } = req.body;
 
         // Validate input
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Name, email and password are required' });
+        // newChange-added phone validation to ensure it's provided during user creation and prevent potential issues with missing phone numbers because phone is required in the user schema
+        if (!name || !email || !password || !phone) {
+            return res.status(400).json({ message: 'Name, email, password and phone are required' });
         }
 
         // Check existing email
