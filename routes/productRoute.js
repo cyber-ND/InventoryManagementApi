@@ -6,7 +6,7 @@ const productController = require('../controllers/productController.js');
 const { protect } = require('../middleware/authMiddleware');
 const { authorizeRoles } = require('../middleware/roleMiddleware');
 
-router1.use(protect)
+//router1.use(protect)
 
 // ❗ No authentication here (as requested)
 router1.post('/products', authorizeRoles('admin'), productController.createProduct);
@@ -14,5 +14,9 @@ router1.get('/products', authorizeRoles('salesperson'), productController.getPro
 router1.get('/products/:id', productController.getProduct);
 router1.put('/products/:id', productController.updateProduct);
 router1.delete('/products/:id', productController.deleteProduct);
+router1.patch('/upload/:id', productController.updateProductImage);
+router1.post('/createproductwithemail', productController.createProductwithEmail);
+
+
 
 module.exports = router1;
